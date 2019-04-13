@@ -13,3 +13,9 @@ batch response: Git credentials for https://github.com/shashankvmaiya/Image-Clas
 Execute: 
 git config --global credential.helper wincred
 
+
+Step #1: tensorflow-estimator 1.13.0 has requirement numpy>=1.13.3, but you'll have numpy 1.11.2 which is incompatible.
+Step #1: tensorboard 1.13.1 has requirement numpy>=1.12.0, but you'll have numpy 1.11.2 which is incompatible.
+Step #1: tensorboard 1.13.1 has requirement protobuf>=3.6.0, but you'll have protobuf 3.4.0 which is incompatible.
+Step #1: tensorflow 1.13.1 has requirement numpy>=1.13.3, but you'll have numpy 1.11.2 which is incompatible.
+Step #1: tensorflow 1.13.1 has requirement protobuf>=3.6.1, but you'll have protobuf 3.4.0 which is incompatible.
