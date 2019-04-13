@@ -9,6 +9,18 @@ import matplotlib
 # import matplotlib.pyplot as plt
 
 app = Flask(__name__)
+
+def get_file_path_and_save(request):
+    # Get the file from post request
+    f = request.files['file']
+
+    # Save the file to ./uploads
+    basepath = os.path.dirname(__file__)
+    file_path = os.path.join(
+        basepath, 'uploads', secure_filename(f.filename))
+    f.save(file_path)
+    return file_path
+
 @app.route("/")
 def index():
     return render_template("index.html")
