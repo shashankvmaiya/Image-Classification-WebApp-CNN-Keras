@@ -1,0 +1,15 @@
+Use Git LFS for uplaoding files sizes > 100MB
+https://git-lfs.github.com/
+
+Go to the repository directory
+1. git lfs install
+2. git lfs track "*.h5"
+3. git add .gitattributes
+4. Normal git add/commit/push the h5 large files
+
+
+Error while pushing large files: 
+batch response: Git credentials for https://github.com/shashankvmaiya/Image-Classification-CNN-Keras.git not found
+Execute: 
+git config --global credential.helper wincred
+
