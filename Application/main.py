@@ -16,7 +16,7 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 
 print('About to load the model')
-MODEL_PATH = 'models/keras_mnist.h5'
+MODEL_PATH = 'models/keras_mnist_2.h5'
 model = load_model(MODEL_PATH)
 print('Model loaded')
 
@@ -26,8 +26,10 @@ def get_file_path_and_save(request):
     f = request.files['file']
 
     # Save the file to ./uploads
-    basepath = os.path.dirname(__file__)
-    file_path = os.path.join(basepath, 'uploads', secure_filename(f.filename))
+    # basepath = os.path.dirname(__file__)
+    # file_path = os.path.join(basepath, 'uploads', secure_filename(f.filename))
+    file_path = 'models/'+secure_filename(f.filename)
+    print('Attempting to save the file at path: ', file_path)
     f.save(file_path)
     print('Saved image at path: ', file_path)
     return file_path
@@ -40,30 +42,40 @@ def index():
 
 # @app.route('/predict', methods=['POST'])
 # @app.route("/", methods=['POST'])
-@app.route('/predictResNet50', methods=['GET', 'POST'])
-def predictResNet50():
-    print('----------Entered predictResNet50---------')
+@app.route('/predict', methods=['GET', 'POST'])
+def predict():
+    print('----------Entered predict---------')
     # basepath = os.path.dirname(__file__)
     # model_path = os.path.join(basepath, 'keras_mnist.h5')
     # print('Model Path: ', model_path)
-    # model = keras.models.load_model(model_path)
+    # model = load_model('models/keras_mnist_2.h5')
     # print('Model loaded')
     if request.method == 'POST':
         file_path = get_file_path_and_save(request)
         # data = request.get_json()['data']
         # data = base64.b64decode(data)
         # img_data = io.BytesIO(data)
-        img = image.load_img(file_path, target_size=(28, 28), grayscale=True)
+        img = image.load_img(file_path, target_size=(28, 28), color_mode="grayscale")
         x = (255-image.img_to_array(img))/255.0
         x = np.expand_dims(x, axis=0)
         print('Image Post-processing complete')
-        predictions = keras_mnist.predict(x)
+        predictions = model.predict(x)
+        predictions = predictions.reshape(10)
         print('Predictions completed, llrs = ', predictions)
-        digit = str(np.argmax(predictions))
-        print('Predicted digit = ', digit)
-        return digit
+        digit_prob_order = np.argsort(-predictions)
+        thresh = 0.99
+        if predictions[digit_prob_order[0]] > thresh:
+            top_pred_str = 'Top predictions: {0} with P = {1:.2f}'.format(digit_prob_order[0], predictions[digit_prob_order[0]])
+        elif predictions[digit_prob_order[0]] + predictions[digit_prob_order[1]] > thresh:
+            top_pred_str = 'Top predictions: [{0}, {2}] with P = [{1:.2f}, {3:.2f}]'.format(digit_prob_order[0], predictions[digit_prob_order[0]], digit_prob_order[1], predictions[digit_prob_order[1]])
+        else:
+            top_pred_str = 'Top predictions: [{0}, {2}, {4}] with P = [{1:.2f}, {3:.2f}, {5:.2f}]'.format(digit_prob_order[0], predictions[digit_prob_order[0]], digit_prob_order[1], predictions[digit_prob_order[1]], digit_prob_order[2], predictions[digit_prob_order[2]])
+        digit_str = str(np.argmax(predictions))
+        output_str = digit_str+'\n\n'+top_pred_str
+        print('Predicted digit = ', output_str)
+        return [digit_str, top_pred_str]
     # return render_template('results.html', prediction=digit)
-#     return jsonify({"prediction": data})
+    # return jsonify({"prediction": data})
 
 
 if __name__ == '__main__':
