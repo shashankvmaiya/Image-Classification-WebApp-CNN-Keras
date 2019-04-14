@@ -48,9 +48,9 @@ $(document).ready(function () {
                 // Get and display the result
                 $('.loader').hide();
                 $('#result').fadeIn(600);
-                $('#result').text(' Result:  ' + data[0]);
+                $('#result').text(' Result:  ' + data);
                 $('#result-details').fadeIn(600);
-                $('#result-details').text(data_details[1]);
+                $('#result-details').text(data);
                 console.log('Success!');
             },
         });

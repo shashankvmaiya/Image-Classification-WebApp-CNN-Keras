@@ -16,7 +16,7 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 
 print('About to load the model')
-MODEL_PATH = 'models/keras_mnist_2.h5'
+MODEL_PATH = 'models/keras_mnist.h5'
 model = load_model(MODEL_PATH)
 print('Model loaded')
 
@@ -71,9 +71,9 @@ def predict():
         else:
             top_pred_str = 'Top predictions: [{0}, {2}, {4}] with P = [{1:.2f}, {3:.2f}, {5:.2f}]'.format(digit_prob_order[0], predictions[digit_prob_order[0]], digit_prob_order[1], predictions[digit_prob_order[1]], digit_prob_order[2], predictions[digit_prob_order[2]])
         digit_str = str(np.argmax(predictions))
-        output_str = digit_str+'\n\n'+top_pred_str
+        output_str = digit_str+'        \n'+top_pred_str
         print('Predicted digit = ', output_str)
-        return [digit_str, top_pred_str]
+        return output_str
     # return render_template('results.html', prediction=digit)
     # return jsonify({"prediction": data})
 
