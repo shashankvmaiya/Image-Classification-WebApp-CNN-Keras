@@ -65,13 +65,13 @@ def predict():
         digit_prob_order = np.argsort(-predictions)
         thresh = 0.99
         if predictions[digit_prob_order[0]] > thresh:
-            top_pred_str = 'Top predictions: {0} with P = {1:.2f}'.format(digit_prob_order[0], predictions[digit_prob_order[0]])
+            top_pred_str = ''
         elif predictions[digit_prob_order[0]] + predictions[digit_prob_order[1]] > thresh:
-            top_pred_str = 'Top predictions: [{0}, {2}] with P = [{1:.2f}, {3:.2f}]'.format(digit_prob_order[0], predictions[digit_prob_order[0]], digit_prob_order[1], predictions[digit_prob_order[1]])
+            top_pred_str = '  (Prob = {0:.2f}, Other Predictions: {1} with Prob = {2:.2f})'.format(predictions[digit_prob_order[0]], digit_prob_order[1], predictions[digit_prob_order[1]])
         else:
-            top_pred_str = 'Top predictions: [{0}, {2}, {4}] with P = [{1:.2f}, {3:.2f}, {5:.2f}]'.format(digit_prob_order[0], predictions[digit_prob_order[0]], digit_prob_order[1], predictions[digit_prob_order[1]], digit_prob_order[2], predictions[digit_prob_order[2]])
+            top_pred_str = '  (Prob = {0:.2f}, Other Predictions: [{1}, {3}] with Prob = [{2:.2f}, {4:.2f}])'.format(predictions[digit_prob_order[0]], digit_prob_order[1], predictions[digit_prob_order[1]], digit_prob_order[2], predictions[digit_prob_order[2]])
         digit_str = str(np.argmax(predictions))
-        output_str = digit_str+'        \n'+top_pred_str
+        output_str = digit_str+top_pred_str
         print('Predicted digit = ', output_str)
         return output_str
     # return render_template('results.html', prediction=digit)
