@@ -1,8 +1,8 @@
 # Web Application for MNIST Digit Classification using Convolutional Neural Network and Keras
 
 Please visit [smaiya-mnist-cnn](https://smaiya-mnist-cnn.appspot.com/) for the Web Application. Below is a snippet from the web application. The application outputs the predicted digit. It also provides the confidence and other possibilities, if the confidence level of the prediction is < 99%
-<img height=300 src="./Images/results/web_app_4.png"/>
-<img height=300 src="./Images/results/web_app_9.png"/>
+<img height=400 src="./Images/results/web_app_4.png"/>
+<img height=400 src="./Images/results/web_app_9.png"/>
 
 ## Modeling
 We train a handwritten digit classifier using the MNIST data set with Convolutional Neural Network using Keras with tensorflow backend. The model achieves an accuracy of 99.4%. The most common mis-classified digit are from 9 to 4. 
