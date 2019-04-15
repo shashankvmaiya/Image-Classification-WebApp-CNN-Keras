@@ -49,8 +49,8 @@ $(document).ready(function () {
                 $('.loader').hide();
                 $('#result').fadeIn(600);
                 $('#result').text(' Result:  ' + data);
-                $('#result-details').fadeIn(600);
-                $('#result-details').text(data);
+                //$('#result-details').fadeIn(600);
+                //$('#result-details').text(data);
                 console.log('Success!');
             },
         });
